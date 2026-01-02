@@ -1,7 +1,9 @@
 import 'package:get/get.dart' show Get, GetxService, Inst;
 import 'package:logger/logger.dart'
     show AnsiColor, Level, Logger, PrettyPrinter;
+import 'package:meta/meta.dart' show protected;
 
+@protected
 class BooLogger extends GetxService {
   final List<String> _logs = <String>[];
 
