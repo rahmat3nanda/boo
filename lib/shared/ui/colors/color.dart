@@ -9,9 +9,13 @@ part 'color.light.dart';
 part 'color_base.dart';
 
 abstract mixin class BooColor {
+  const BooColor();
+
   BooColorBase get scaffold;
 
+  BooColorBase get turquoise1 => const Color(0xFF34e5eb).base;
+
   static BooColor get get => BooTheme.i.mode.value == BooThemeMode.light
-      ? _BooLightColor()
-      : _BooDarkColor();
+      ? const _BooLightColor()
+      : const _BooDarkColor();
 }
