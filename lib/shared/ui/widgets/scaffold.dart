@@ -1,6 +1,7 @@
-import 'package:boo/shared/ui/colors/color.dart' show BooColor;
+import 'package:boo/shared/ui/themes/theme.dart' show BooTheme;
 import 'package:flutter/material.dart'
     show Drawer, PreferredSizeWidget, Scaffold, StatelessWidget, Widget;
+import 'package:get/get.dart' show GetBuilder;
 
 class BooScaffold extends StatelessWidget {
   const BooScaffold({
@@ -23,14 +24,16 @@ class BooScaffold extends StatelessWidget {
   final Widget? background;
 
   @override
-  Widget build(_) => Scaffold(
-    key: key,
-    backgroundColor: BooColor.get.scaffold.value,
-    appBar: appBar,
-    drawer: drawer,
-    extendBodyBehindAppBar: extendBodyBehindAppBar,
-    extendBody: extendBody,
-    body: body,
-    bottomNavigationBar: bottomNavigationBar,
+  Widget build(_) => GetBuilder<BooTheme>(
+    builder: (BooTheme theme) => Scaffold(
+      key: key,
+      backgroundColor: theme.color.scaffold.value,
+      appBar: appBar,
+      drawer: drawer,
+      extendBodyBehindAppBar: extendBodyBehindAppBar,
+      extendBody: extendBody,
+      body: body,
+      bottomNavigationBar: bottomNavigationBar,
+    ),
   );
 }
