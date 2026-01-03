@@ -4,4 +4,6 @@ abstract class MatchNavigationDelegate extends BooNavigationDelegate {
   const MatchNavigationDelegate();
 
   void onFilter();
+
+  void onTranslate();
 }

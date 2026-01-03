@@ -1,6 +1,7 @@
 import 'package:boo/cores/core/core.dart' show BooNavigation;
 import 'package:boo/features/match/match.navigation.dart'
     show MatchNavigationDelegate;
+import 'package:boo/shared/ui/colors/color.dart' show BooColor;
 import 'package:boo/shared/ui/widgets/widgets.dart' show BooUIDev, BooUISvg;
 import 'package:flutter/material.dart'
     show Center, GestureDetector, StatelessWidget, Widget;
@@ -21,18 +22,21 @@ class MatchPage extends StatelessWidget {
 
   static List<Widget> get trailing => <Widget>[
     GestureDetector(
-      child: const BooUISvg(
+      onTap: BooNavigation.i.delegate<MatchNavigationDelegate>().onTranslate,
+      child: BooUISvg(
         asset: 'assets/svg/translate.svg',
         width: 24,
         height: 24,
+        color: BooColor.get.text,
       ),
     ),
     GestureDetector(
       onTap: BooNavigation.i.delegate<MatchNavigationDelegate>().onFilter,
-      child: const BooUISvg(
+      child: BooUISvg(
         asset: 'assets/svg/filter.svg',
         width: 24,
         height: 24,
+        color: BooColor.get.text,
       ),
     ),
   ];
