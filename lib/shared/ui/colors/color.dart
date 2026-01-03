@@ -17,6 +17,8 @@ abstract mixin class BooColor {
 
   BooColorBase get text;
 
+  BooColorBase get border => const Color(0xFF545452).base;
+
   static BooColor get get => BooTheme.i.mode.value == BooThemeMode.light
       ? const _BooLightColor()
       : const _BooDarkColor();
