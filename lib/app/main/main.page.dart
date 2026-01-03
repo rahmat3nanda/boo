@@ -60,17 +60,22 @@ class MainPage extends StatelessWidget {
               child: ClipRRect(
                 child: BackdropFilter(
                   filter: ImageFilter.blur(sigmaX: 2, sigmaY: 4),
-                  child: _appbar(
-                    leading: <Widget>[
-                      GestureDetector(
-                        child: BooUISvg(
-                          asset: 'assets/svg/drawer.svg',
-                          width: 24,
-                          height: 24,
-                          color: BooColor.get.text,
+                  child: ObxValue<Rx<_MainMenu>>(
+                    (Rx<_MainMenu> menu) => _appbar(
+                      leading: <Widget>[
+                        GestureDetector(
+                          child: BooUISvg(
+                            asset: 'assets/svg/drawer.svg',
+                            width: 24,
+                            height: 24,
+                            color: BooColor.get.text,
+                          ),
                         ),
-                      ),
-                    ],
+                        ...menu.value.leading,
+                      ],
+                      trailing: menu.value.trailing,
+                    ),
+                    controller.menu,
                   ),
                 ),
               ),

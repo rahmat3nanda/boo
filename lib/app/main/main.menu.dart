@@ -31,3 +31,21 @@ extension _MainMenuPage on _MainMenu {
     _MainMenu.message => const Center(child: BooUIDev()),
   };
 }
+
+extension _MainMenuAction on _MainMenu {
+  List<Widget> get leading => switch (this) {
+    _MainMenu.match => const <Widget>[],
+    _MainMenu.search => const <Widget>[],
+    _MainMenu.create => const <Widget>[],
+    _MainMenu.universe => const <Widget>[],
+    _MainMenu.message => const <Widget>[],
+  };
+
+  List<Widget> get trailing => switch (this) {
+    _MainMenu.match => const <Widget>[],
+    _MainMenu.search => const <Widget>[],
+    _MainMenu.create => const <Widget>[],
+    _MainMenu.universe => const <Widget>[],
+    _MainMenu.message => const <Widget>[],
+  };
+}
