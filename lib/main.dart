@@ -1,7 +1,7 @@
 import 'dart:async' show runZonedGuarded;
 
 import 'package:boo/app/app.dart' show App;
-import 'package:boo/cores/core/logger.dart' show BooLogger;
+import 'package:boo/cores/core/core.dart' show BooLogger;
 import 'package:flutter/material.dart' show debugPrint, runApp;
 
 void main() {

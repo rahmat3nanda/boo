@@ -1,5 +1,4 @@
-import 'package:boo/cores/core/logger.dart' show BooLogger;
-import 'package:boo/cores/core/service.dart' show BooService;
+import 'package:boo/cores/core/core.dart' show BooLogger, BooService;
 import 'package:get/get.dart' show Get, Inst;
 import 'package:meta/meta.dart' show protected;
 
