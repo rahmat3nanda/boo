@@ -5,4 +5,7 @@ class _BooLightColor with BooColor {
 
   @override
   BooColorBase get scaffold => Colors.white.base;
+
+  @override
+  BooColorBase get text => Colors.black.base;
 }
