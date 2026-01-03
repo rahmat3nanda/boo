@@ -2,6 +2,8 @@ import 'dart:async' show unawaited;
 
 import 'package:boo/app/app.pages.dart' show AppPages;
 import 'package:boo/app/app.routes.dart' show AppRoute;
+import 'package:boo/app/navigations/app.match.navigation.dart'
+    show AppMatchNavigation;
 import 'package:boo/app/navigations/app.message.navigation.dart'
     show AppMessageNavigation;
 import 'package:boo/app/navigations/app.universe.navigation.dart'
@@ -52,6 +54,7 @@ class App extends StatelessWidget {
     BooTheme.initialize();
 
     BooNavigation.initialize(<BooNavigationDelegate>[
+      const AppMatchNavigation(),
       const AppMessageNavigation(),
       const AppUniverseNavigation(),
     ]);

@@ -2,19 +2,19 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:boo/app/app.routes.dart' show AppRoute;
 import 'package:boo/cores/core/core.dart' show BooUIController;
+import 'package:boo/features/match/match.page.dart' show MatchPage;
 import 'package:boo/features/message/message.page.dart' show MessagePage;
 import 'package:boo/features/search/search.page.dart' show SearchPage;
 import 'package:boo/features/universe/universe.page.dart' show UniversePage;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor;
 import 'package:boo/shared/ui/themes/theme.dart' show BooTheme;
 import 'package:boo/shared/ui/widgets/widgets.dart'
-    show BooScaffold, BooUIDev, BooUISvg, BooUIText;
+    show BooScaffold, BooUISvg, BooUIText;
 import 'package:boo/shared/utils/const.dart' show bAppBar;
 import 'package:flutter/material.dart'
     show
         Align,
         BackdropFilter,
-        Center,
         ClipRRect,
         Column,
         CrossAxisAlignment,
@@ -123,16 +123,16 @@ class MainPage extends StatelessWidget {
             Positioned(
               top: 4,
               bottom: 4,
-              left: 12,
-              right: 12,
+              left: 16,
+              right: 16,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 4,
+                spacing: 16,
                 children: <Widget>[
-                  Expanded(child: Row(spacing: 4, children: leading)),
+                  Expanded(child: Row(spacing: 16, children: leading)),
                   Expanded(
                     child: Row(
-                      spacing: 4,
+                      spacing: 16,
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: trailing,
                     ),
