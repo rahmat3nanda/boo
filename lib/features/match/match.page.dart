@@ -1,10 +1,13 @@
-import 'package:boo/cores/core/core.dart' show BooNavigation;
+import 'package:boo/cores/core/core.dart' show BooNavigation, BooUIController;
 import 'package:boo/features/match/match.navigation.dart'
     show MatchNavigationDelegate;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor;
-import 'package:boo/shared/ui/widgets/widgets.dart' show BooUIDev, BooUISvg;
+import 'package:boo/shared/ui/widgets/widgets.dart' show BooScaffold, BooUISvg;
 import 'package:flutter/material.dart'
-    show Center, GestureDetector, StatelessWidget, Widget;
+    show GestureDetector, StatelessWidget, Widget;
+import 'package:get/get.dart' show GetBuilder;
+
+part 'match.controller.dart';
 
 class MatchPage extends StatelessWidget {
   const MatchPage({super.key});
@@ -42,5 +45,8 @@ class MatchPage extends StatelessWidget {
   ];
 
   @override
-  Widget build(_) => const Center(child: BooUIDev());
+  Widget build(_) => GetBuilder<_MatchController>(
+    init: _MatchController(),
+    builder: (_MatchController controller) => BooScaffold(),
+  );
 }
