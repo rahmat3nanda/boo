@@ -4,6 +4,8 @@ import 'package:boo/app/app.pages.dart' show AppPages;
 import 'package:boo/app/app.routes.dart' show AppRoute;
 import 'package:boo/app/navigations/app.message.navigation.dart'
     show AppMessageNavigation;
+import 'package:boo/app/navigations/app.universe.navigation.dart'
+    show AppUniverseNavigation;
 import 'package:boo/cores/core/core.dart'
     show BooCore, BooLogger, BooNavigation;
 import 'package:boo/cores/core/src/navigation.dart';
@@ -51,6 +53,7 @@ class App extends StatelessWidget {
 
     BooNavigation.initialize(<BooNavigationDelegate>[
       const AppMessageNavigation(),
+      const AppUniverseNavigation(),
     ]);
   }
 

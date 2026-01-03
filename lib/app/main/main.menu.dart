@@ -27,7 +27,7 @@ extension _MainMenuPage on _MainMenu {
     _MainMenu.match => const Center(child: BooUIDev()),
     _MainMenu.search => const Center(child: BooUIDev()),
     _MainMenu.create => const Center(child: BooUIDev()),
-    _MainMenu.universe => const Center(child: BooUIDev()),
+    _MainMenu.universe => const UniversePage(),
     _MainMenu.message => const MessagePage(),
   };
 }
@@ -37,7 +37,7 @@ extension _MainMenuAction on _MainMenu {
     _MainMenu.match => const <Widget>[],
     _MainMenu.search => const <Widget>[],
     _MainMenu.create => const <Widget>[],
-    _MainMenu.universe => const <Widget>[],
+    _MainMenu.universe => UniversePage.leading,
     _MainMenu.message => MessagePage.leading,
   };
 
@@ -45,7 +45,7 @@ extension _MainMenuAction on _MainMenu {
     _MainMenu.match => const <Widget>[],
     _MainMenu.search => const <Widget>[],
     _MainMenu.create => const <Widget>[],
-    _MainMenu.universe => const <Widget>[],
+    _MainMenu.universe => UniversePage.trailing,
     _MainMenu.message => MessagePage.trailing,
   };
 }
