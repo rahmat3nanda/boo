@@ -6,7 +6,8 @@ import 'package:flutter/material.dart' show debugPrint, runApp;
 
 void main() {
   runZonedGuarded(
-    () {
+    () async {
+      await App.initialize();
       runApp(const App());
     },
     (Object exception, StackTrace stackTrace) {
