@@ -1,4 +1,4 @@
-import 'package:boo/cores/logger.dart' show BooLogger;
+import 'package:boo/cores/core/logger.dart' show BooLogger;
 import 'package:get/get.dart' show GetxController;
 import 'package:meta/meta.dart' show protected;
 

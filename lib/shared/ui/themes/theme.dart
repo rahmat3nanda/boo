@@ -1,6 +1,6 @@
 import 'dart:ui' show Brightness;
 
-import 'package:boo/cores/controller.dart' show BooUIController;
+import 'package:boo/cores/core/controller.dart' show BooUIController;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor, BooColorBase;
 import 'package:boo/shared/ui/extensions/system_overlay.dart'
     show BooSystemOverlay, BooSystemOverlayBrightness;
