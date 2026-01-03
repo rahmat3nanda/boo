@@ -28,7 +28,7 @@ extension _MainMenuPage on _MainMenu {
     _MainMenu.search => const Center(child: BooUIDev()),
     _MainMenu.create => const Center(child: BooUIDev()),
     _MainMenu.universe => const Center(child: BooUIDev()),
-    _MainMenu.message => const Center(child: BooUIDev()),
+    _MainMenu.message => const MessagePage(),
   };
 }
 
@@ -38,7 +38,7 @@ extension _MainMenuAction on _MainMenu {
     _MainMenu.search => const <Widget>[],
     _MainMenu.create => const <Widget>[],
     _MainMenu.universe => const <Widget>[],
-    _MainMenu.message => const <Widget>[],
+    _MainMenu.message => MessagePage.leading,
   };
 
   List<Widget> get trailing => switch (this) {
@@ -46,6 +46,6 @@ extension _MainMenuAction on _MainMenu {
     _MainMenu.search => const <Widget>[],
     _MainMenu.create => const <Widget>[],
     _MainMenu.universe => const <Widget>[],
-    _MainMenu.message => const <Widget>[],
+    _MainMenu.message => MessagePage.trailing,
   };
 }

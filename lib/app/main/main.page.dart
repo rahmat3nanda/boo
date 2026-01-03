@@ -2,6 +2,7 @@ import 'dart:ui' show ImageFilter;
 
 import 'package:boo/app/app.routes.dart' show AppRoute;
 import 'package:boo/cores/core/core.dart' show BooUIController;
+import 'package:boo/features/message/message.page.dart' show MessagePage;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor;
 import 'package:boo/shared/ui/themes/theme.dart' show BooTheme;
 import 'package:boo/shared/ui/widgets/widgets.dart'
@@ -126,7 +127,13 @@ class MainPage extends StatelessWidget {
                 spacing: 4,
                 children: <Widget>[
                   Expanded(child: Row(spacing: 4, children: leading)),
-                  Expanded(child: Row(spacing: 4, children: trailing)),
+                  Expanded(
+                    child: Row(
+                      spacing: 4,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: trailing,
+                    ),
+                  ),
                 ],
               ),
             ),
