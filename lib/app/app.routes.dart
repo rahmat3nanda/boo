@@ -1,7 +1,8 @@
 import 'package:boo/cores/core/core.dart' show BooRoute;
 
 enum AppRoute with BooRoute {
-  main('/');
+  main('/'),
+  dev('/dev');
 
   const AppRoute(this.go);
 
