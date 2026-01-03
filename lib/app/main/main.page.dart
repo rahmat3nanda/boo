@@ -6,8 +6,10 @@ import 'package:boo/shared/ui/colors/color.dart' show BooColor;
 import 'package:boo/shared/ui/themes/theme.dart' show BooTheme;
 import 'package:boo/shared/ui/widgets/widgets.dart'
     show BooScaffold, BooUIDev, BooUISvg, BooUIText;
+import 'package:boo/shared/utils/const.dart' show bAppBar;
 import 'package:flutter/material.dart'
     show
+        Align,
         BackdropFilter,
         Center,
         ClipRRect,
@@ -25,9 +27,11 @@ import 'package:flutter/material.dart'
         Positioned,
         Row,
         SafeArea,
+        SizedBox,
         Stack,
         StatelessWidget,
-        Widget;
+        Widget,
+        kToolbarHeight;
 import 'package:get/get.dart' show GetBuilder, GetPage, ObxValue, Rx;
 
 part 'main.controller.dart';
@@ -48,6 +52,28 @@ class MainPage extends StatelessWidget {
           children: <Widget>[
             Positioned.fill(
               child: _mainView(controller: controller.menuController),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 2, sigmaY: 4),
+                  child: _appbar(
+                    leading: <Widget>[
+                      GestureDetector(
+                        child: BooUISvg(
+                          asset: 'assets/svg/drawer.svg',
+                          width: 24,
+                          height: 24,
+                          color: BooColor.get.text,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
             Positioned(
               bottom: 0,
@@ -72,6 +98,43 @@ class MainPage extends StatelessWidget {
           ],
         ),
       ),
+    ),
+  );
+
+  Widget _appbar({
+    List<Widget> leading = const <Widget>[],
+    List<Widget> trailing = const <Widget>[],
+  }) => SizedBox(
+    height: bAppBar,
+    child: Column(
+      children: <Widget>[
+        const SizedBox(height: kToolbarHeight),
+        Stack(
+          children: <Widget>[
+            Positioned(
+              top: 4,
+              bottom: 4,
+              left: 12,
+              right: 12,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 4,
+                children: <Widget>[
+                  Expanded(child: Row(spacing: 4, children: leading)),
+                  Expanded(child: Row(spacing: 4, children: trailing)),
+                ],
+              ),
+            ),
+            const Align(
+              child: BooUIText(
+                'BOO',
+                fontWeight: FontWeight.w700,
+                fontSize: 24,
+              ),
+            ),
+          ],
+        ),
+      ],
     ),
   );
 
