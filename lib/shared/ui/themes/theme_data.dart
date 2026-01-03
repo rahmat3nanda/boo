@@ -13,11 +13,8 @@ import 'package:google_fonts/google_fonts.dart' show GoogleFonts;
 ThemeData _themeData(BooTheme theme) => ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: theme.color.turquoise1.value),
   actionIconTheme: ActionIconThemeData(
-    backButtonIconBuilder: (_) => Icon(
-      Icons.arrow_back_ios,
-      color: theme.color.turquoise1.value,
-      size: 22,
-    ),
+    backButtonIconBuilder: (_) =>
+        Icon(Icons.arrow_back_ios, color: theme.color.text.value, size: 22),
   ),
   scaffoldBackgroundColor: theme.color.scaffold.value,
   appBarTheme: AppBarTheme(
