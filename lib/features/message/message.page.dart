@@ -12,8 +12,7 @@ class MessagePage extends StatelessWidget {
 
   static List<Widget> get trailing => <Widget>[
     GestureDetector(
-      onTap: () =>
-          BooNavigation.i.delegate<MessageNavigationDelegate>().onCreateNew(),
+      onTap: BooNavigation.i.delegate<MessageNavigationDelegate>().onCreateNew,
       child: const BooUISvg(asset: 'assets/svg/add.svg', width: 24, height: 24),
     ),
   ];
