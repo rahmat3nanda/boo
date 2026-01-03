@@ -1,7 +1,43 @@
-import 'package:flutter/material.dart';
+import 'dart:async' show runZonedGuarded;
+
+import 'package:boo/cores/logger.dart' show BooLogger;
+import 'package:flutter/material.dart'
+    show
+        AppBar,
+        BuildContext,
+        Center,
+        ColorScheme,
+        Colors,
+        Column,
+        FloatingActionButton,
+        Icon,
+        Icons,
+        MainAxisAlignment,
+        MaterialApp,
+        Scaffold,
+        State,
+        StatefulWidget,
+        StatelessWidget,
+        Text,
+        Theme,
+        ThemeData,
+        Widget,
+        debugPrint,
+        runApp;
 
 void main() {
-  runApp(const MyApp());
+  runZonedGuarded(
+    () {
+      runApp(const MyApp());
+    },
+    (Object exception, StackTrace stackTrace) {
+      try {
+        BooLogger.i.error('$exception\n$stackTrace');
+      } catch (_) {
+        debugPrint('$exception\n$stackTrace');
+      }
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -105,9 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
