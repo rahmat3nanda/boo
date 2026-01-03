@@ -7,4 +7,6 @@ enum AppRoute with BooRoute {
 
   @override
   final String go;
+
+  static BooRoute get initial => AppRoute.main;
 }
