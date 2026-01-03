@@ -10,6 +10,10 @@ class _MainController extends BooUIController {
     super.onClose();
   }
 
+  void onDrawerTapped() {
+    BooToast.success(title: 'Under development');
+  }
+
   void onMenuSelected(_MainMenu item) {
     if (item == _MainMenu.create) {
       Get.toNamed(AppRoute.dev.go);

@@ -29,7 +29,7 @@ import 'package:flutter/material.dart'
         WidgetsFlutterBinding;
 import 'package:flutter/services.dart'
     show DeviceOrientation, SystemChrome, SystemUiOverlayStyle;
-import 'package:get/get.dart' show GetBuilder, GetMaterialApp, Transition;
+import 'package:get/get.dart' show GetBuilder, GetMaterialApp;
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -75,7 +75,6 @@ class App extends StatelessWidget {
             theme.mode.value.overlay.iconBrightness,
       ),
       child: GetMaterialApp(
-        defaultTransition: Transition.circularReveal,
         debugShowCheckedModeBanner: false,
         title: 'Boo',
         initialRoute: AppRoute.initial.go,

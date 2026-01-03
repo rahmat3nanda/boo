@@ -9,7 +9,7 @@ import 'package:boo/features/universe/universe.page.dart' show UniversePage;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor;
 import 'package:boo/shared/ui/themes/theme.dart' show BooTheme;
 import 'package:boo/shared/ui/widgets/widgets.dart'
-    show BooScaffold, BooUISvg, BooUIText;
+    show BooScaffold, BooToast, BooUISvg, BooUIText;
 import 'package:boo/shared/utils/const.dart' show bAppBar;
 import 'package:flutter/material.dart'
     show
@@ -68,6 +68,7 @@ class MainPage extends StatelessWidget {
                     (Rx<_MainMenu> menu) => _appbar(
                       leading: <Widget>[
                         GestureDetector(
+                          onTap: controller.onDrawerTapped,
                           child: BooUISvg(
                             asset: 'assets/svg/drawer.svg',
                             width: 24,
