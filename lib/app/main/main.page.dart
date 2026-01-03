@@ -1,15 +1,15 @@
 import 'dart:ui' show ImageFilter;
 
 import 'package:boo/app/app.routes.dart' show AppRoute;
-import 'package:boo/app/main/main.menu.dart'
-    show MainMenu, MainMenuIcon, MainMenuPage, MainMenuString;
+import 'package:boo/cores/core/core.dart' show BooUIController;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor;
 import 'package:boo/shared/ui/themes/theme.dart' show BooTheme;
 import 'package:boo/shared/ui/widgets/widgets.dart'
-    show BooScaffold, BooUISvg, BooUIText;
+    show BooScaffold, BooUIDev, BooUISvg, BooUIText;
 import 'package:flutter/material.dart'
     show
         BackdropFilter,
+        Center,
         ClipRRect,
         Column,
         CrossAxisAlignment,
@@ -20,6 +20,7 @@ import 'package:flutter/material.dart'
         MainAxisAlignment,
         MainAxisSize,
         Padding,
+        PageController,
         PageView,
         Positioned,
         Row,
@@ -27,7 +28,10 @@ import 'package:flutter/material.dart'
         Stack,
         StatelessWidget,
         Widget;
-import 'package:get/get.dart' show GetBuilder, GetPage;
+import 'package:get/get.dart' show GetBuilder, GetPage, ObxValue, Rx;
+
+part 'main.controller.dart';
+part 'main.menu.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -37,40 +41,58 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(_) => GetBuilder<BooTheme>(
-    builder: (_) => BooScaffold(
-      body: Stack(
-        children: <Widget>[
-          Positioned.fill(child: _mainView()),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: ClipRRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 2, sigmaY: 4),
-                child: SafeArea(top: false, child: _menuView(onSelect: (_) {})),
+    builder: (_) => GetBuilder<_MainController>(
+      init: _MainController(),
+      builder: (_MainController controller) => BooScaffold(
+        body: Stack(
+          children: <Widget>[
+            Positioned.fill(
+              child: _mainView(controller: controller.menuController),
+            ),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: ClipRRect(
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 2, sigmaY: 4),
+                  child: SafeArea(
+                    top: false,
+                    child: ObxValue<Rx<_MainMenu>>(
+                      (Rx<_MainMenu> selected) => _menuView(
+                        selected: selected.value,
+                        onSelect: controller.onMenuSelected,
+                      ),
+                      controller.menu,
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ),
   );
 
-  Widget _mainView() => PageView.builder(
-    itemCount: MainMenu.values.length,
-    itemBuilder: (_, int i) => MainMenu.values[i].page,
+  Widget _mainView({required PageController controller}) => PageView.builder(
+    controller: controller,
+    itemCount: _MainMenu.values.length,
+    itemBuilder: (_, int i) => _MainMenu.values[i].page,
   );
 
-  Widget _menuView({required Function(MainMenu menu) onSelect}) => Padding(
+  Widget _menuView({
+    required _MainMenu selected,
+    required Function(_MainMenu menu) onSelect,
+  }) => Padding(
     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.start,
       spacing: 8,
-      children: MainMenu.values
+      children: _MainMenu.values
           .map(
-            (MainMenu e) => Expanded(
+            (_MainMenu e) => Expanded(
               child: GestureDetector(
                 onTap: () => onSelect(e),
                 child: Column(
@@ -81,11 +103,15 @@ class MainPage extends StatelessWidget {
                       asset: e.icon,
                       width: 28,
                       height: 28,
-                      color: BooColor.get.text,
+                      color: selected == e
+                          ? BooColor.get.turquoise1
+                          : BooColor.get.text,
                     ),
                     BooUIText(
                       e.title,
-                      color: BooColor.get.text,
+                      color: selected == e
+                          ? BooColor.get.turquoise1
+                          : BooColor.get.text,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                     ),

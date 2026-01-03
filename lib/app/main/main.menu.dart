@@ -1,34 +1,33 @@
-import 'package:boo/shared/ui/widgets/widgets.dart' show BooUIDev;
-import 'package:flutter/material.dart' show Center, Widget;
+part of 'main.page.dart';
 
-enum MainMenu { match, search, create, universe, message }
+enum _MainMenu { match, search, create, universe, message }
 
-extension MainMenuString on MainMenu {
+extension _MainMenuString on _MainMenu {
   String get title => switch (this) {
-    MainMenu.match => 'Match',
-    MainMenu.search => 'Search',
-    MainMenu.create => 'Create',
-    MainMenu.universe => 'Universes',
-    MainMenu.message => 'Messages',
+    _MainMenu.match => 'Match',
+    _MainMenu.search => 'Search',
+    _MainMenu.create => 'Create',
+    _MainMenu.universe => 'Universes',
+    _MainMenu.message => 'Messages',
   };
 }
 
-extension MainMenuIcon on MainMenu {
+extension _MainMenuIcon on _MainMenu {
   String get icon => switch (this) {
-    MainMenu.match => 'assets/svg/match.svg',
-    MainMenu.search => 'assets/svg/search.svg',
-    MainMenu.create => 'assets/svg/create.svg',
-    MainMenu.universe => 'assets/svg/universe.svg',
-    MainMenu.message => 'assets/svg/message.svg',
+    _MainMenu.match => 'assets/svg/match.svg',
+    _MainMenu.search => 'assets/svg/search.svg',
+    _MainMenu.create => 'assets/svg/create.svg',
+    _MainMenu.universe => 'assets/svg/universe.svg',
+    _MainMenu.message => 'assets/svg/message.svg',
   };
 }
 
-extension MainMenuPage on MainMenu {
+extension _MainMenuPage on _MainMenu {
   Widget get page => switch (this) {
-    MainMenu.match => const Center(child: BooUIDev()),
-    MainMenu.search => const Center(child: BooUIDev()),
-    MainMenu.create => const Center(child: BooUIDev()),
-    MainMenu.universe => const Center(child: BooUIDev()),
-    MainMenu.message => const Center(child: BooUIDev()),
+    _MainMenu.match => const Center(child: BooUIDev()),
+    _MainMenu.search => const Center(child: BooUIDev()),
+    _MainMenu.create => const Center(child: BooUIDev()),
+    _MainMenu.universe => const Center(child: BooUIDev()),
+    _MainMenu.message => const Center(child: BooUIDev()),
   };
 }

@@ -1,0 +1,17 @@
+part of 'main.page.dart';
+
+class _MainController extends BooUIController {
+  final PageController menuController = PageController();
+  final Rx<_MainMenu> menu = Rx<_MainMenu>(_MainMenu.values.first);
+
+  @override
+  void onClose() {
+    menuController.dispose();
+    super.onClose();
+  }
+
+  void onMenuSelected(_MainMenu item) {
+    menu.value = item;
+    menuController.jumpToPage(item.index);
+  }
+}
