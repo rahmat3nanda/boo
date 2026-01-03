@@ -15,6 +15,8 @@ abstract mixin class BooColor {
 
   BooColorBase get turquoise1 => const Color(0xFF34e5eb).base;
 
+  BooColorBase get rosePink => const Color(0xFFcf78a9).base;
+
   BooColorBase get text;
 
   BooColorBase get border => const Color(0xFF545452).base;
