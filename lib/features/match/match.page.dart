@@ -1,6 +1,7 @@
 import 'package:boo/cores/core/core.dart' show BooNavigation, BooUIController;
 import 'package:boo/features/match/match.navigation.dart'
     show MatchNavigationDelegate;
+import 'package:boo/features/match/src/power_up.sheet.dart' show PowerUpSheet;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor;
 import 'package:boo/shared/ui/widgets/widgets.dart' show BooScaffold, BooUISvg;
 import 'package:flutter/material.dart'
@@ -14,7 +15,7 @@ class MatchPage extends StatelessWidget {
 
   static List<Widget> get leading => <Widget>[
     GestureDetector(
-      onTap: () {},
+      onTap: PowerUpSheet.show,
       child: const BooUISvg(
         asset: 'assets/svg/flash.svg',
         width: 24,
