@@ -17,6 +17,7 @@ dependencies:
   flutter_svg: ^2.2.0
   cached_network_image: ^3.4.1
   lottie: ^3.3.2
+  tab_indicator_styler: ^2.0.0
 
 dev_dependencies:
   flutter_test:
