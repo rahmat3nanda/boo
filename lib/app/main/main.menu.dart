@@ -25,8 +25,8 @@ extension _MainMenuIcon on _MainMenu {
 extension _MainMenuPage on _MainMenu {
   Widget get page => switch (this) {
     _MainMenu.match => const Center(child: BooUIDev()),
-    _MainMenu.search => const Center(child: BooUIDev()),
-    _MainMenu.create => const Center(child: BooUIDev()),
+    _MainMenu.search => const SearchPage(),
+    _MainMenu.create => const SizedBox.shrink(),
     _MainMenu.universe => const UniversePage(),
     _MainMenu.message => const MessagePage(),
   };
@@ -35,7 +35,7 @@ extension _MainMenuPage on _MainMenu {
 extension _MainMenuAction on _MainMenu {
   List<Widget> get leading => switch (this) {
     _MainMenu.match => const <Widget>[],
-    _MainMenu.search => const <Widget>[],
+    _MainMenu.search => SearchPage.leading,
     _MainMenu.create => const <Widget>[],
     _MainMenu.universe => UniversePage.leading,
     _MainMenu.message => MessagePage.leading,
@@ -43,7 +43,7 @@ extension _MainMenuAction on _MainMenu {
 
   List<Widget> get trailing => switch (this) {
     _MainMenu.match => const <Widget>[],
-    _MainMenu.search => const <Widget>[],
+    _MainMenu.search => SearchPage.trailing,
     _MainMenu.create => const <Widget>[],
     _MainMenu.universe => UniversePage.trailing,
     _MainMenu.message => MessagePage.trailing,

@@ -3,6 +3,7 @@ import 'dart:ui' show ImageFilter;
 import 'package:boo/app/app.routes.dart' show AppRoute;
 import 'package:boo/cores/core/core.dart' show BooUIController;
 import 'package:boo/features/message/message.page.dart' show MessagePage;
+import 'package:boo/features/search/search.page.dart' show SearchPage;
 import 'package:boo/features/universe/universe.page.dart' show UniversePage;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor;
 import 'package:boo/shared/ui/themes/theme.dart' show BooTheme;
