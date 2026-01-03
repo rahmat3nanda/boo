@@ -34,7 +34,8 @@ import 'package:flutter/material.dart'
         StatelessWidget,
         Widget,
         kToolbarHeight;
-import 'package:get/get.dart' show GetBuilder, GetPage, ObxValue, Rx;
+import 'package:get/get.dart'
+    show Get, GetBuilder, GetNavigation, GetPage, ObxValue, Rx;
 
 part 'main.controller.dart';
 part 'main.menu.dart';

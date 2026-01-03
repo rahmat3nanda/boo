@@ -11,6 +11,10 @@ class _MainController extends BooUIController {
   }
 
   void onMenuSelected(_MainMenu item) {
+    if (item == _MainMenu.create) {
+      Get.toNamed(AppRoute.dev.go);
+      return;
+    }
     menu.value = item;
     menuController.jumpToPage(item.index);
   }
