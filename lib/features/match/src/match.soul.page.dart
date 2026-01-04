@@ -45,10 +45,15 @@ import 'package:boo/shared/ui/widgets/widgets.dart'
         BooUIGradientBoxBorder,
         BooUIImage,
         BooUIInfiniteListView,
+        BooUIStaggered,
         BooUISvg,
         BooUIText,
         SliverCenter;
 import 'package:boo/shared/utils/const.dart' show bNavBar;
+import 'package:boo/shared/utils/extensions/list.string.dart'
+    show ListJoinString;
+import 'package:boo/shared/utils/extensions/string.compare.dart'
+    show StringCompare;
 import 'package:flutter/material.dart'
     show
         BackdropFilter,
@@ -58,24 +63,32 @@ import 'package:flutter/material.dart'
         BoxShape,
         Center,
         ClipRRect,
+        Column,
         Container,
+        CrossAxisAlignment,
         Curves,
         EdgeInsets,
+        Flexible,
         FontWeight,
         GestureDetector,
+        Icon,
+        Icons,
         ListView,
         MainAxisAlignment,
+        MainAxisSize,
         NeverScrollableScrollPhysics,
         PageController,
         PageView,
         Positioned,
         Row,
+        SizedBox,
         SliverAppBar,
         SliverFillRemaining,
         Stack,
         StatelessWidget,
         TabBar,
         TabController,
+        TextOverflow,
         VoidCallback,
         Widget;
 import 'package:get/get.dart'
@@ -162,14 +175,11 @@ class MatchSoulPage extends StatelessWidget {
     required _MatchSoulMenu selected,
     required Function(int index) onChanged,
   }) => BooUIInfiniteListView(
-    // primary: false,
-    // shrinkWrap: true,
-    // physics: const NeverScrollableScrollPhysics(),
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
     headers: <Widget>[
+      const SizedBox(height: 24),
       SliverAppBar(
         toolbarHeight: Get.mediaQuery.size.height * .6,
-        title: _imageView(url: profile.medias?.firstOrNull?.thumbnail ?? ''),
+        title: _appBarView(profile: profile),
         bottom: TabBar(
           controller: controller,
           onTap: onChanged,
@@ -205,22 +215,14 @@ class MatchSoulPage extends StatelessWidget {
     footers: <Widget>[
       SliverCenter(
         sliver: SliverFillRemaining(
-          child: Center(
-            child: ListView.builder(
-              primary: false,
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemBuilder: (_, _) => BooUIText('text'),
-            ),
-            // child: PageView(
-            //   controller: pageController,
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   children: [
-            //     _profileView(profile: profile),
-            //     BooUIDev(),
-            //     BooUIDev(),
-            //   ],
-            // ),
+          child: PageView(
+            controller: pageController,
+            physics: const NeverScrollableScrollPhysics(),
+            children: <Widget>[
+              _profileView(profile: profile),
+              const Center(child: BooUIDev()),
+              const Center(child: BooUIDev()),
+            ],
           ),
         ),
       ),
@@ -228,11 +230,149 @@ class MatchSoulPage extends StatelessWidget {
     children: const <Widget>[],
   );
 
+  Widget _appBarView({required Profile profile}) => Stack(
+    children: <Widget>[
+      _imageView(url: profile.medias?.firstOrNull?.thumbnail ?? ''),
+      Positioned(
+        bottom: 16,
+        right: 16,
+        left: 16,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          spacing: 6,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Row(
+              spacing: 12,
+              children: <Widget>[
+                Flexible(
+                  child: BooUIText(
+                    profile.fullname ?? '',
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                if (profile.verified ?? false)
+                  Icon(
+                    Icons.verified,
+                    color: BooColor.get.turquoise1.value,
+                    size: 24,
+                  ),
+              ],
+            ),
+            if (profile.work.isNotEmptyAndNotNull)
+              Row(
+                spacing: 4,
+                children: <Widget>[
+                  Icon(
+                    Icons.work_outline,
+                    color: BooColor.get.text.value,
+                    size: 12,
+                  ),
+                  Flexible(
+                    child: BooUIText(
+                      profile.work ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            if (profile.school.isNotEmptyAndNotNull)
+              Row(
+                spacing: 4,
+                children: <Widget>[
+                  Icon(
+                    Icons.school_outlined,
+                    color: BooColor.get.text.value,
+                    size: 12,
+                  ),
+                  Flexible(
+                    child: BooUIText(
+                      profile.school ?? '',
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            if (profile.location != null)
+              Row(
+                spacing: 4,
+                children: <Widget>[
+                  Icon(
+                    Icons.location_on_outlined,
+                    color: BooColor.get.text.value,
+                    size: 12,
+                  ),
+                  Flexible(
+                    child: BooUIText(
+                      <String?>[
+                        profile.location?.city?.name,
+                        profile.location?.province?.name,
+                        profile.location?.country?.name,
+                      ].nullableJoin(', '),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+            BooUIStaggered(
+              children: <Widget>[
+                _chipHeader(
+                  value: '${profile.yearsOld}',
+                  prefix: Icon(
+                    profile.gender == ProfileGenderType.male
+                        ? Icons.male
+                        : Icons.female,
+                    color: profile.gender == ProfileGenderType.male
+                        ? BooColor.get.turquoise1.value
+                        : BooColor.get.rosePink.value,
+                    size: 16,
+                  ),
+                ),
+                if (profile.personality != null)
+                  _chipHeader(value: profile.personality?.tr ?? ''),
+                if (profile.zodiac != null)
+                  _chipHeader(value: profile.zodiac?.tr ?? ''),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ],
+  );
+
+  Widget _chipHeader({required String value, Widget? prefix}) => Container(
+    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(24),
+      border: BooUIGradientBoxBorder(
+        colors: <BooColorBase>[
+          BooColor.get.text,
+          BooColor.get.scaffold,
+          BooColor.get.text,
+        ],
+      ),
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.min,
+      spacing: 4,
+      children: <Widget>[if (prefix != null) prefix, BooUIText(value)],
+    ),
+  );
+
   Widget _profileView({required Profile profile}) => ListView(
     primary: false,
     shrinkWrap: true,
-    physics: NeverScrollableScrollPhysics(),
-    children: [_imageView(url: profile.medias?.firstOrNull?.thumbnail ?? '')],
+    physics: const NeverScrollableScrollPhysics(),
+    padding: const EdgeInsets.symmetric(horizontal: 16),
+    children: <Widget>[
+      _imageView(url: profile.medias?.firstOrNull?.thumbnail ?? ''),
+    ],
   );
 
   Widget _imageView({required String url}) => _cardView(
