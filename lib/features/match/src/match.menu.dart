@@ -16,6 +16,6 @@ enum _MatchMenu {
 
   Widget get view => switch (this) {
     souls => const MatchSoulPage(),
-    discovers => const BooUIDev(),
+    discovers => const Center(child: BooUIDev()),
   };
 }

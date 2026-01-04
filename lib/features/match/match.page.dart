@@ -5,20 +5,21 @@ import 'package:boo/features/match/src/match.soul.page.dart' show MatchSoulPage;
 import 'package:boo/features/match/src/power_up.sheet.dart' show PowerUpSheet;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor, BooColorBase;
 import 'package:boo/shared/ui/widgets/widgets.dart'
-    show BooScaffold, BooUIDev, BooUIInfiniteListView, BooUISvg, BooUIText;
+    show BooScaffold, BooUIDev, BooUISvg, BooUIText;
 import 'package:flutter/material.dart'
     show
+        Center,
         Container,
         Curves,
         EdgeInsets,
         FontWeight,
         GestureDetector,
+        NestedScrollView,
         NeverScrollableScrollPhysics,
         PageController,
         PageView,
         SafeArea,
         SliverAppBar,
-        SliverFillRemaining,
         StatelessWidget,
         TabBar,
         TabController,
@@ -72,29 +73,23 @@ class MatchPage extends StatelessWidget {
     builder: (_MatchController controller) => BooScaffold(
       body: SafeArea(
         bottom: false,
-        child: ObxValue<Rx<_MatchMenu>>(
-          (Rx<_MatchMenu> menu) => BooUIInfiniteListView(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-            headers: <Widget>[
-              _appBar(
+        child: NestedScrollView(
+          headerSliverBuilder: (_, _) => <Widget>[
+            ObxValue<Rx<_MatchMenu>>(
+              (Rx<_MatchMenu> menu) => _appBar(
                 controller: controller.menuController,
                 selected: menu.value,
                 onChanged: controller.onMenuChanged,
               ),
-            ],
-            footers: <Widget>[
-              SliverFillRemaining(
-                child: PageView.builder(
-                  itemCount: _MatchMenu.values.length,
-                  controller: controller.menuPageController,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemBuilder: (_, int index) => _MatchMenu.values[index].view,
-                ),
-              ),
-            ],
-            children: const <Widget>[],
+              controller.menu,
+            ),
+          ],
+          body: PageView.builder(
+            itemCount: _MatchMenu.values.length,
+            controller: controller.menuPageController,
+            physics: const NeverScrollableScrollPhysics(),
+            itemBuilder: (_, int index) => _MatchMenu.values[index].view,
           ),
-          controller.menu,
         ),
       ),
     ),

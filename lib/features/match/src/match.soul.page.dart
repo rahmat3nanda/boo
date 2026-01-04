@@ -40,7 +40,14 @@ import 'package:boo/features/match/match.navigation.dart'
 import 'package:boo/shared/ui/colors/color.dart' show BooColor, BooColorBase;
 import 'package:boo/shared/ui/styles/styles.dart' show GradientDirection;
 import 'package:boo/shared/ui/widgets/widgets.dart'
-    show BooUIGradientBoxBorder, BooUIImage, BooUIInfiniteListView, BooUISvg;
+    show
+        BooUIDev,
+        BooUIGradientBoxBorder,
+        BooUIImage,
+        BooUIInfiniteListView,
+        BooUISvg,
+        BooUIText,
+        SliverCenter;
 import 'package:boo/shared/utils/const.dart' show bNavBar;
 import 'package:flutter/material.dart'
     show
@@ -49,19 +56,25 @@ import 'package:flutter/material.dart'
         BorderRadius,
         BoxDecoration,
         BoxShape,
+        Center,
         ClipRRect,
         Container,
         Curves,
         EdgeInsets,
+        FontWeight,
         GestureDetector,
+        ListView,
         MainAxisAlignment,
         NeverScrollableScrollPhysics,
         PageController,
+        PageView,
         Positioned,
         Row,
         SliverAppBar,
+        SliverFillRemaining,
         Stack,
         StatelessWidget,
+        TabBar,
         TabController,
         VoidCallback,
         Widget;
@@ -71,9 +84,11 @@ import 'package:get/get.dart'
         GetBuilder,
         GetNavigation,
         GetSingleTickerProviderStateMixin,
-        ObxValue,
+        Obx,
         Rx,
         RxList;
+import 'package:tab_indicator_styler/tab_indicator_styler.dart'
+    show MaterialIndicator;
 
 part 'match.soul.controller.dart';
 part 'match.soul.menu.dart';
@@ -87,9 +102,14 @@ class MatchSoulPage extends StatelessWidget {
     builder: (_MatchSoulController controller) => Stack(
       children: <Widget>[
         Positioned.fill(
-          child: ObxValue<Rx<Profile>>(
-            (Rx<Profile> show) => _mainView(profile: show.value),
-            controller.show,
+          child: Obx(
+            () => _mainView(
+              profile: controller.show.value,
+              controller: controller.menuController,
+              pageController: controller.menuPageController,
+              selected: controller.menu.value,
+              onChanged: controller.onMenuChanged,
+            ),
           ),
         ),
         Positioned(
@@ -135,17 +155,84 @@ class MatchSoulPage extends StatelessWidget {
     ),
   );
 
-  Widget _mainView({required Profile profile}) => BooUIInfiniteListView(
-    primary: false,
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
+  Widget _mainView({
+    required Profile profile,
+    required TabController controller,
+    required PageController pageController,
+    required _MatchSoulMenu selected,
+    required Function(int index) onChanged,
+  }) => BooUIInfiniteListView(
+    // primary: false,
+    // shrinkWrap: true,
+    // physics: const NeverScrollableScrollPhysics(),
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
     headers: <Widget>[
       SliverAppBar(
         toolbarHeight: Get.mediaQuery.size.height * .6,
         title: _imageView(url: profile.medias?.firstOrNull?.thumbnail ?? ''),
+        bottom: TabBar(
+          controller: controller,
+          onTap: onChanged,
+          tabs: _MatchSoulMenu.values
+              .map(
+                (_MatchSoulMenu e) => Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 2,
+                  ),
+                  child: BooUIText(
+                    e.title,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                    color: e == selected
+                        ? BooColor.get.text
+                        : BooColor.get.border,
+                  ),
+                ),
+              )
+              .toList(),
+          dividerHeight: 0,
+          indicator: MaterialIndicator(
+            topLeftRadius: 24,
+            topRightRadius: 24,
+            bottomLeftRadius: 24,
+            bottomRightRadius: 24,
+            color: BooColor.get.turquoise1.value,
+          ),
+        ),
       ),
     ],
-    children: <Widget>[],
+    footers: <Widget>[
+      SliverCenter(
+        sliver: SliverFillRemaining(
+          child: Center(
+            child: ListView.builder(
+              primary: false,
+              shrinkWrap: true,
+              physics: NeverScrollableScrollPhysics(),
+              itemBuilder: (_, _) => BooUIText('text'),
+            ),
+            // child: PageView(
+            //   controller: pageController,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   children: [
+            //     _profileView(profile: profile),
+            //     BooUIDev(),
+            //     BooUIDev(),
+            //   ],
+            // ),
+          ),
+        ),
+      ),
+    ],
+    children: const <Widget>[],
+  );
+
+  Widget _profileView({required Profile profile}) => ListView(
+    primary: false,
+    shrinkWrap: true,
+    physics: NeverScrollableScrollPhysics(),
+    children: [_imageView(url: profile.medias?.firstOrNull?.thumbnail ?? '')],
   );
 
   Widget _imageView({required String url}) => _cardView(
