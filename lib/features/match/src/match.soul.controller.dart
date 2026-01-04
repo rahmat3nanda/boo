@@ -77,6 +77,18 @@ class _MatchSoulController extends BooUIController
             duration: 0,
           ),
         ),
+        const ProfileMedia(
+          url: 'https://picsum.photos/id/1027/800/1200',
+          thumbnail: 'https://picsum.photos/id/1027/300/450',
+          metadata: ProfileMediaMetadata(
+            mime: 'image/jpeg',
+            size: 312000,
+            width: 800,
+            height: 1200,
+            type: ProfileMediaType.image,
+            duration: 0,
+          ),
+        ),
       ],
       verified: false,
       fullname: 'Nadia Putri',
@@ -312,7 +324,7 @@ class _MatchSoulController extends BooUIController
     ),
   ]);
 
-  late final Rx<Profile> show = Rx<Profile>(data.first);
+  late final Rxn<Profile> show = Rxn<Profile>(data.first);
 
   @override
   void onClose() {
@@ -334,13 +346,21 @@ class _MatchSoulController extends BooUIController
     BooNavigation.i.delegate<MatchNavigationDelegate>().showSubscription();
   }
 
-  void onDislike() {}
+  void onDislike() {
+    BooToast.success(title: 'Dislike ${show.value?.fullname ?? ''}');
+    data.removeAt(0);
+    show.value = data.firstOrNull;
+  }
 
   void onSuperLike() {
     BooNavigation.i.delegate<MatchNavigationDelegate>().showSubscription();
   }
 
-  void onLike() {}
+  void onLike() {
+    BooToast.success(title: 'Like ${show.value?.fullname ?? ''}');
+    data.removeAt(0);
+    show.value = data.firstOrNull;
+  }
 
   void onMessage() {
     BooNavigation.i.delegate<MatchNavigationDelegate>().showSubscription();

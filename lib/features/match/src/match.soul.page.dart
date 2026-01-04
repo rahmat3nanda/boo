@@ -41,6 +41,7 @@ import 'package:boo/shared/ui/colors/color.dart' show BooColor, BooColorBase;
 import 'package:boo/shared/ui/styles/styles.dart' show GradientDirection;
 import 'package:boo/shared/ui/widgets/widgets.dart'
     show
+        BooToast,
         BooUIDev,
         BooUIGradientBoxBorder,
         BooUIImage,
@@ -56,44 +57,7 @@ import 'package:boo/shared/utils/extensions/list.string.dart'
 import 'package:boo/shared/utils/extensions/string.compare.dart'
     show StringCompare;
 import 'package:flutter/material.dart'
-    show
-        BackdropFilter,
-        Border,
-        BorderRadius,
-        BoxDecoration,
-        BoxShape,
-        Center,
-        ClipRRect,
-        Column,
-        Container,
-        CrossAxisAlignment,
-        Curves,
-        EdgeInsets,
-        EdgeInsetsGeometry,
-        Flexible,
-        FontWeight,
-        GestureDetector,
-        Icon,
-        Icons,
-        ListView,
-        MainAxisAlignment,
-        MainAxisSize,
-        NeverScrollableScrollPhysics,
-        PageController,
-        PageView,
-        Positioned,
-        Row,
-        SizedBox,
-        SliverAppBar,
-        SliverFillRemaining,
-        Stack,
-        StatelessWidget,
-        TabBar,
-        TabController,
-        TextOverflow,
-        VoidCallback,
-        Widget,
-        WrapCrossAlignment;
+    show BackdropFilter, Border, BorderRadius, BoxDecoration, BoxShape, Center, ClipRRect, Column, Container, CrossAxisAlignment, Curves, EdgeInsets, EdgeInsetsGeometry, Flexible, FontWeight, GestureDetector, Icon, Icons, ListView, MainAxisAlignment, MainAxisSize, NeverScrollableScrollPhysics, PageController, PageView, Positioned, Row, SizedBox, SliverAppBar, SliverFillRemaining, Stack, StatelessWidget, TabBar, TabController, TextAlign, TextOverflow, VoidCallback, Widget, WrapCrossAlignment;
 import 'package:get/get.dart'
     show
         Get,
@@ -102,7 +66,8 @@ import 'package:get/get.dart'
         GetSingleTickerProviderStateMixin,
         Obx,
         Rx,
-        RxList;
+        RxList,
+        Rxn;
 import 'package:tab_indicator_styler/tab_indicator_styler.dart'
     show MaterialIndicator;
 
@@ -118,15 +83,24 @@ class MatchSoulPage extends StatelessWidget {
     builder: (_MatchSoulController controller) => Stack(
       children: <Widget>[
         Positioned.fill(
-          child: Obx(
-            () => _mainView(
-              profile: controller.show.value,
+          child: Obx(() {
+            if (controller.show.value == null) {
+              return const Center(
+                child: BooUIText(
+                  'Oops...\nIt seems like there are no profiles that match you yet',
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+
+            return _mainView(
+              profile: controller.show.value!,
               controller: controller.menuController,
               pageController: controller.menuPageController,
               selected: controller.menu.value,
               onChanged: controller.onMenuChanged,
-            ),
-          ),
+            );
+          }),
         ),
         Positioned(
           bottom: bNavBar + 32,
