@@ -24,6 +24,7 @@ import 'package:flutter/material.dart'
         GestureDetector,
         MainAxisAlignment,
         MainAxisSize,
+        NeverScrollableScrollPhysics,
         Padding,
         PageController,
         PageView,
@@ -157,6 +158,7 @@ class MainPage extends StatelessWidget {
   Widget _mainView({required PageController controller}) => PageView.builder(
     controller: controller,
     itemCount: _MainMenu.values.length,
+    physics: const NeverScrollableScrollPhysics(),
     itemBuilder: (_, int i) => _MainMenu.values[i].page,
   );
 

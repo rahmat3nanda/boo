@@ -4,15 +4,20 @@ import 'package:boo/features/match/match.navigation.dart'
 import 'package:boo/features/match/src/power_up.sheet.dart' show PowerUpSheet;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor, BooColorBase;
 import 'package:boo/shared/ui/widgets/widgets.dart'
-    show BooScaffold, BooUIInfiniteListView, BooUISvg, BooUIText;
+    show BooScaffold, BooUIDev, BooUIInfiniteListView, BooUISvg, BooUIText;
 import 'package:flutter/material.dart'
     show
         Container,
+        Curves,
         EdgeInsets,
         FontWeight,
         GestureDetector,
+        NeverScrollableScrollPhysics,
+        PageController,
+        PageView,
         SafeArea,
         SliverAppBar,
+        SliverFillRemaining,
         StatelessWidget,
         TabBar,
         TabController,
@@ -76,7 +81,16 @@ class MatchPage extends StatelessWidget {
                 onChanged: controller.onMenuChanged,
               ),
             ],
-            children: <Widget>[],
+            footers: <Widget>[
+              SliverFillRemaining(
+                child: PageView(
+                  controller: controller.menuController,
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: <Widget>[_mainView(), const BooUIDev()],
+                ),
+              ),
+            ],
+            children: const <Widget>[],
           ),
           controller.menu,
         ),
@@ -119,4 +133,6 @@ class MatchPage extends StatelessWidget {
       ),
     ),
   );
+
+  Widget _mainView() => Container();
 }

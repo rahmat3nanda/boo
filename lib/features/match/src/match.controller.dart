@@ -6,6 +6,7 @@ class _MatchController extends BooUIController
     length: _MatchMenu.values.length,
     vsync: this,
   );
+  final PageController menuController = PageController();
 
   final Rx<_MatchMenu> menu = Rx<_MatchMenu>(_MatchMenu.values.first);
 
@@ -17,5 +18,10 @@ class _MatchController extends BooUIController
 
   void onMenuChanged(int index) {
     menu.value = _MatchMenu.values[index];
+    menuController.animateToPage(
+      index,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.easeInOut,
+    );
   }
 }
