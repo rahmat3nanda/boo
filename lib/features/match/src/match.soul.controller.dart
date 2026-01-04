@@ -329,4 +329,20 @@ class _MatchSoulController extends BooUIController
       curve: Curves.easeInOut,
     );
   }
+
+  void onBoost() {
+    BooNavigation.i.delegate<MatchNavigationDelegate>().showSubscription();
+  }
+
+  void onDislike() {}
+
+  void onSuperLike() {
+    BooNavigation.i.delegate<MatchNavigationDelegate>().showSubscription();
+  }
+
+  void onLike() {}
+
+  void onMessage() {
+    BooNavigation.i.delegate<MatchNavigationDelegate>().showSubscription();
+  }
 }

@@ -16,4 +16,9 @@ class AppMatchNavigation extends MatchNavigationDelegate {
   void onTranslate() {
     BooTheme.i.toggle();
   }
+
+  @override
+  void showSubscription() {
+    Get.toNamed(AppRoute.dev.go);
+  }
 }

@@ -34,7 +34,9 @@ import 'package:boo/cores/account/models/profile/profile.model.dart'
     show Profile;
 import 'package:boo/cores/account/models/profile/profile.prompt.model.dart'
     show ProfilePrompt;
-import 'package:boo/cores/core/core.dart' show BooUIController;
+import 'package:boo/cores/core/core.dart' show BooNavigation, BooUIController;
+import 'package:boo/features/match/match.navigation.dart'
+    show MatchNavigationDelegate;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor, BooColorBase;
 import 'package:boo/shared/ui/styles/styles.dart' show GradientDirection;
 import 'package:boo/shared/ui/widgets/widgets.dart'
@@ -61,6 +63,7 @@ import 'package:flutter/material.dart'
         Stack,
         StatelessWidget,
         TabController,
+        VoidCallback,
         Widget;
 import 'package:get/get.dart'
     show
@@ -98,22 +101,33 @@ class MatchSoulPage extends StatelessWidget {
             spacing: 4,
             children: <Widget>[
               _button(
+                onTap: controller.onBoost,
                 icon: 'assets/svg/rocket.svg',
                 color: BooColor.get.turquoise1,
                 size: 48,
               ),
-              _button(icon: 'assets/svg/cross.svg', size: 64),
               _button(
+                onTap: controller.onDislike,
+                icon: 'assets/svg/cross.svg',
+                size: 64,
+              ),
+              _button(
+                onTap: controller.onSuperLike,
                 icon: 'assets/svg/like.svg',
                 color: BooColor.get.rosePink,
                 size: 48,
               ),
               _button(
+                onTap: controller.onLike,
                 icon: 'assets/svg/like.svg',
                 color: BooColor.get.turquoise1,
                 size: 64,
               ),
-              _button(icon: 'assets/svg/send.svg', size: 48),
+              _button(
+                onTap: controller.onMessage,
+                icon: 'assets/svg/send.svg',
+                size: 48,
+              ),
             ],
           ),
         ),
@@ -154,9 +168,10 @@ class MatchSoulPage extends StatelessWidget {
   Widget _button({
     required String icon,
     required double size,
+    VoidCallback? onTap,
     BooColorBase? color,
   }) => GestureDetector(
-    onTap: () {},
+    onTap: onTap,
     child: ClipRRect(
       borderRadius: BorderRadius.circular(size),
       child: BackdropFilter(

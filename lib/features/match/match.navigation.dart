@@ -6,4 +6,6 @@ abstract class MatchNavigationDelegate extends BooNavigationDelegate {
   void onFilter();
 
   void onTranslate();
+
+  void showSubscription();
 }
