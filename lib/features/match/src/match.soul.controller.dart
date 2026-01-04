@@ -6,7 +6,6 @@ class _MatchSoulController extends BooUIController
     length: _MatchSoulMenu.values.length,
     vsync: this,
   );
-  final PageController menuPageController = PageController();
 
   final Rx<_MatchSoulMenu> menu = Rx<_MatchSoulMenu>(
     _MatchSoulMenu.values.first,
@@ -328,18 +327,12 @@ class _MatchSoulController extends BooUIController
 
   @override
   void onClose() {
-    menuPageController.dispose();
     menuController.dispose();
     super.onClose();
   }
 
   void onMenuChanged(int index) {
     menu.value = _MatchSoulMenu.values[index];
-    menuPageController.animateToPage(
-      index,
-      duration: const Duration(milliseconds: 200),
-      curve: Curves.easeInOut,
-    );
   }
 
   void onBoost() {

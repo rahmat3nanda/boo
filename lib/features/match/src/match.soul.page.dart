@@ -57,7 +57,40 @@ import 'package:boo/shared/utils/extensions/list.string.dart'
 import 'package:boo/shared/utils/extensions/string.compare.dart'
     show StringCompare;
 import 'package:flutter/material.dart'
-    show BackdropFilter, Border, BorderRadius, BoxDecoration, BoxShape, Center, ClipRRect, Column, Container, CrossAxisAlignment, Curves, EdgeInsets, EdgeInsetsGeometry, Flexible, FontWeight, GestureDetector, Icon, Icons, ListView, MainAxisAlignment, MainAxisSize, NeverScrollableScrollPhysics, PageController, PageView, Positioned, Row, SizedBox, SliverAppBar, SliverFillRemaining, Stack, StatelessWidget, TabBar, TabController, TextAlign, TextOverflow, VoidCallback, Widget, WrapCrossAlignment;
+    show
+        BackdropFilter,
+        Border,
+        BorderRadius,
+        BoxDecoration,
+        BoxShape,
+        Center,
+        ClipRRect,
+        Column,
+        Container,
+        CrossAxisAlignment,
+        EdgeInsets,
+        EdgeInsetsGeometry,
+        Flexible,
+        FontWeight,
+        GestureDetector,
+        Icon,
+        Icons,
+        MainAxisAlignment,
+        MainAxisSize,
+        Positioned,
+        Row,
+        SizedBox,
+        SliverAppBar,
+        SliverFillRemaining,
+        Stack,
+        StatelessWidget,
+        TabBar,
+        TabController,
+        TextAlign,
+        TextOverflow,
+        VoidCallback,
+        Widget,
+        WrapCrossAlignment;
 import 'package:get/get.dart'
     show
         Get,
@@ -96,7 +129,6 @@ class MatchSoulPage extends StatelessWidget {
             return _mainView(
               profile: controller.show.value!,
               controller: controller.menuController,
-              pageController: controller.menuPageController,
               selected: controller.menu.value,
               onChanged: controller.onMenuChanged,
             );
@@ -148,10 +180,10 @@ class MatchSoulPage extends StatelessWidget {
   Widget _mainView({
     required Profile profile,
     required TabController controller,
-    required PageController pageController,
     required _MatchSoulMenu selected,
     required Function(int index) onChanged,
   }) => BooUIInfiniteListView(
+    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
     headers: <Widget>[
       const SizedBox(height: 24),
       SliverAppBar(
@@ -190,21 +222,15 @@ class MatchSoulPage extends StatelessWidget {
       ),
     ],
     footers: <Widget>[
-      SliverCenter(
-        sliver: SliverFillRemaining(
-          child: PageView(
-            controller: pageController,
-            physics: const NeverScrollableScrollPhysics(),
-            children: <Widget>[
-              _profileView(profile: profile),
-              const Center(child: BooUIDev()),
-              const Center(child: BooUIDev()),
-            ],
-          ),
+      if (selected != _MatchSoulMenu.profile)
+        const SliverCenter(
+          sliver: SliverFillRemaining(child: Center(child: BooUIDev())),
         ),
-      ),
     ],
-    children: const <Widget>[],
+    children: <Widget>[
+      if (selected == _MatchSoulMenu.profile) ..._profileView(profile: profile),
+      if (selected == _MatchSoulMenu.profile) SizedBox(height: bNavBar * 2.5),
+    ],
   );
 
   Widget _appBarView({required Profile profile}) => Stack(
@@ -342,99 +368,93 @@ class MatchSoulPage extends StatelessWidget {
     ),
   );
 
-  Widget _profileView({required Profile profile}) => ListView(
-    primary: false,
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    padding: const EdgeInsets.symmetric(horizontal: 16),
-    children: <Widget>[
+  List<Widget> _profileView({required Profile profile}) => <Widget>[
+    _cardView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        spacing: 8,
+        children: <Widget>[
+          BooUIStaggered(
+            wrapCrossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              const BooUIText('LOOKING FOR'),
+              if (profile.lookingForType != null)
+                _chip(value: profile.lookingForType?.tr ?? ''),
+              if (profile.lookingForSubtype != null)
+                _chip(value: profile.lookingForSubtype?.tr ?? ''),
+            ],
+          ),
+          BooUIStaggered(
+            wrapCrossAxisAlignment: WrapCrossAlignment.center,
+            children: <Widget>[
+              if (profile.relationshipStatus != null)
+                _chip(value: profile.relationshipStatus?.tr ?? ''),
+              if (profile.relationshipType != null)
+                _chip(value: profile.relationshipType?.tr ?? ''),
+            ],
+          ),
+        ],
+      ),
+    ),
+    if ((profile.interests?.isNotEmpty ?? false) ||
+        (profile.languages?.isNotEmpty ?? false))
+      const SizedBox(height: 16),
+    if ((profile.interests?.isNotEmpty ?? false) ||
+        (profile.languages?.isNotEmpty ?? false))
       _cardView(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
-          spacing: 8,
+          spacing: 12,
           children: <Widget>[
-            BooUIStaggered(
-              wrapCrossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                const BooUIText('LOOKING FOR'),
-                if (profile.lookingForType != null)
-                  _chip(value: profile.lookingForType?.tr ?? ''),
-                if (profile.lookingForSubtype != null)
-                  _chip(value: profile.lookingForSubtype?.tr ?? ''),
-              ],
-            ),
-            BooUIStaggered(
-              wrapCrossAxisAlignment: WrapCrossAlignment.center,
-              children: <Widget>[
-                if (profile.relationshipStatus != null)
-                  _chip(value: profile.relationshipStatus?.tr ?? ''),
-                if (profile.relationshipType != null)
-                  _chip(value: profile.relationshipType?.tr ?? ''),
-              ],
-            ),
+            if (profile.interests?.isNotEmpty ?? false)
+              const BooUIText('Interests', fontWeight: FontWeight.w600),
+            if (profile.interests?.isNotEmpty ?? false)
+              BooUIStaggered.builder(
+                wrapCrossAxisAlignment: WrapCrossAlignment.center,
+                itemCount: profile.interests?.length ?? 0,
+                builder: (int i) => _chip(
+                  value: '#${profile.interests![i].name!}',
+                  filled: true,
+                ),
+              ),
+            if (profile.languages?.isNotEmpty ?? false) const SizedBox(),
+            if (profile.languages?.isNotEmpty ?? false)
+              const BooUIText('Languages', fontWeight: FontWeight.w600),
+            if (profile.languages?.isNotEmpty ?? false)
+              BooUIStaggered.builder(
+                itemCount: profile.languages?.length ?? 0,
+                wrapCrossAxisAlignment: WrapCrossAlignment.center,
+                builder: (int i) => BooUIText(
+                  profile.languages![i].type!.tr,
+                  color: BooColor.get.turquoise1,
+                ),
+              ),
           ],
         ),
       ),
-      if ((profile.interests?.isNotEmpty ?? false) ||
-          (profile.languages?.isNotEmpty ?? false))
-        const SizedBox(height: 16),
-      if ((profile.interests?.isNotEmpty ?? false) ||
-          (profile.languages?.isNotEmpty ?? false))
-        _cardView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 12,
-            children: <Widget>[
-              if (profile.interests?.isNotEmpty ?? false)
-                const BooUIText('Interests', fontWeight: FontWeight.w600),
-              if (profile.interests?.isNotEmpty ?? false)
-                BooUIStaggered.builder(
-                  wrapCrossAxisAlignment: WrapCrossAlignment.center,
-                  itemCount: profile.interests?.length ?? 0,
-                  builder: (int i) => _chip(
-                    value: '#${profile.interests![i].name!}',
-                    filled: true,
-                  ),
-                ),
-              if (profile.languages?.isNotEmpty ?? false) const SizedBox(),
-              if (profile.languages?.isNotEmpty ?? false)
-                const BooUIText('Languages', fontWeight: FontWeight.w600),
-              if (profile.languages?.isNotEmpty ?? false)
-                BooUIStaggered.builder(
-                  itemCount: profile.languages?.length ?? 0,
-                  wrapCrossAxisAlignment: WrapCrossAlignment.center,
-                  builder: (int i) => BooUIText(
-                    profile.languages![i].type!.tr,
-                    color: BooColor.get.turquoise1,
-                  ),
-                ),
-            ],
-          ),
+    if (profile.medias.safeIndex(1) != null) const SizedBox(height: 16),
+    if (profile.medias.safeIndex(1) != null)
+      _imageView(url: profile.medias![1].thumbnail!),
+    if (profile.prompts.safeIndex(0) != null) const SizedBox(height: 16),
+    if (profile.prompts.safeIndex(0) != null)
+      _cardView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 12,
+          children: <Widget>[
+            BooUIText(
+              profile.prompts![0].question ?? '',
+              fontWeight: FontWeight.w600,
+              fontSize: 16,
+            ),
+            BooUIText(profile.prompts![0].answer ?? ''),
+          ],
         ),
-      if (profile.medias.safeIndex(1) != null) const SizedBox(height: 16),
-      if (profile.medias.safeIndex(1) != null)
-        _imageView(url: profile.medias![1].thumbnail!),
-      if (profile.prompts.safeIndex(0) != null) const SizedBox(height: 16),
-      if (profile.prompts.safeIndex(0) != null)
-        _cardView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 12,
-            children: <Widget>[
-              BooUIText(
-                profile.prompts![0].question ?? '',
-                fontWeight: FontWeight.w600,
-                fontSize: 16,
-              ),
-              BooUIText(profile.prompts![0].answer ?? ''),
-            ],
-          ),
-        ),
-    ],
-  );
+      ),
+  ];
 
   Widget _chip({required String value, bool filled = false}) => Container(
     padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
