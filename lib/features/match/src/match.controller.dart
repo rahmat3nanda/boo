@@ -2,23 +2,23 @@ part of '../match.page.dart';
 
 class _MatchController extends BooUIController
     with GetSingleTickerProviderStateMixin {
-  late final TabController tabController = TabController(
+  late final TabController menuController = TabController(
     length: _MatchMenu.values.length,
     vsync: this,
   );
-  final PageController menuController = PageController();
+  final PageController menuPageController = PageController();
 
   final Rx<_MatchMenu> menu = Rx<_MatchMenu>(_MatchMenu.values.first);
 
   @override
   void onClose() {
-    tabController.dispose();
+    menuController.dispose();
     super.onClose();
   }
 
   void onMenuChanged(int index) {
     menu.value = _MatchMenu.values[index];
-    menuController.animateToPage(
+    menuPageController.animateToPage(
       index,
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
