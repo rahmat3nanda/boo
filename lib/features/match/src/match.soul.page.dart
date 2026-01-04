@@ -50,6 +50,7 @@ import 'package:boo/shared/ui/widgets/widgets.dart'
         BooUIText,
         SliverCenter;
 import 'package:boo/shared/utils/const.dart' show bNavBar;
+import 'package:boo/shared/utils/extensions/list.index.dart' show ListIndex;
 import 'package:boo/shared/utils/extensions/list.string.dart'
     show ListJoinString;
 import 'package:boo/shared/utils/extensions/string.compare.dart'
@@ -68,6 +69,7 @@ import 'package:flutter/material.dart'
         CrossAxisAlignment,
         Curves,
         EdgeInsets,
+        EdgeInsetsGeometry,
         Flexible,
         FontWeight,
         GestureDetector,
@@ -90,7 +92,8 @@ import 'package:flutter/material.dart'
         TabController,
         TextOverflow,
         VoidCallback,
-        Widget;
+        Widget,
+        WrapCrossAlignment;
 import 'package:get/get.dart'
     show
         Get,
@@ -371,26 +374,131 @@ class MatchSoulPage extends StatelessWidget {
     physics: const NeverScrollableScrollPhysics(),
     padding: const EdgeInsets.symmetric(horizontal: 16),
     children: <Widget>[
-      _imageView(url: profile.medias?.firstOrNull?.thumbnail ?? ''),
+      _cardView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          spacing: 8,
+          children: <Widget>[
+            BooUIStaggered(
+              wrapCrossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                const BooUIText('LOOKING FOR'),
+                if (profile.lookingForType != null)
+                  _chip(value: profile.lookingForType?.tr ?? ''),
+                if (profile.lookingForSubtype != null)
+                  _chip(value: profile.lookingForSubtype?.tr ?? ''),
+              ],
+            ),
+            BooUIStaggered(
+              wrapCrossAxisAlignment: WrapCrossAlignment.center,
+              children: <Widget>[
+                if (profile.relationshipStatus != null)
+                  _chip(value: profile.relationshipStatus?.tr ?? ''),
+                if (profile.relationshipType != null)
+                  _chip(value: profile.relationshipType?.tr ?? ''),
+              ],
+            ),
+          ],
+        ),
+      ),
+      if ((profile.interests?.isNotEmpty ?? false) ||
+          (profile.languages?.isNotEmpty ?? false))
+        const SizedBox(height: 16),
+      if ((profile.interests?.isNotEmpty ?? false) ||
+          (profile.languages?.isNotEmpty ?? false))
+        _cardView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: <Widget>[
+              if (profile.interests?.isNotEmpty ?? false)
+                const BooUIText('Interests', fontWeight: FontWeight.w600),
+              if (profile.interests?.isNotEmpty ?? false)
+                BooUIStaggered.builder(
+                  wrapCrossAxisAlignment: WrapCrossAlignment.center,
+                  itemCount: profile.interests?.length ?? 0,
+                  builder: (int i) => _chip(
+                    value: '#${profile.interests![i].name!}',
+                    filled: true,
+                  ),
+                ),
+              if (profile.languages?.isNotEmpty ?? false) const SizedBox(),
+              if (profile.languages?.isNotEmpty ?? false)
+                const BooUIText('Languages', fontWeight: FontWeight.w600),
+              if (profile.languages?.isNotEmpty ?? false)
+                BooUIStaggered.builder(
+                  itemCount: profile.languages?.length ?? 0,
+                  wrapCrossAxisAlignment: WrapCrossAlignment.center,
+                  builder: (int i) => BooUIText(
+                    profile.languages![i].type!.tr,
+                    color: BooColor.get.turquoise1,
+                  ),
+                ),
+            ],
+          ),
+        ),
+      if (profile.medias.safeIndex(1) != null) const SizedBox(height: 16),
+      if (profile.medias.safeIndex(1) != null)
+        _imageView(url: profile.medias![1].thumbnail!),
+      if (profile.prompts.safeIndex(0) != null) const SizedBox(height: 16),
+      if (profile.prompts.safeIndex(0) != null)
+        _cardView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            spacing: 12,
+            children: <Widget>[
+              BooUIText(
+                profile.prompts![0].question ?? '',
+                fontWeight: FontWeight.w600,
+                fontSize: 16,
+              ),
+              BooUIText(profile.prompts![0].answer ?? ''),
+            ],
+          ),
+        ),
     ],
+  );
+
+  Widget _chip({required String value, bool filled = false}) => Container(
+    padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(24),
+      border: !filled ? Border.all(color: BooColor.get.border.value) : null,
+      color: filled ? BooColor.get.turquoise1.value : null,
+    ),
+    child: BooUIText(
+      value,
+      fontWeight: FontWeight.w400,
+      fontSize: 12,
+      color: filled ? BooColor.get.scaffold : BooColor.get.text,
+    ),
   );
 
   Widget _imageView({required String url}) => _cardView(
     width: double.infinity,
     height: Get.mediaQuery.size.height * .6,
+    padding: EdgeInsets.zero,
     child: BooUIImage(network: url, borderRadius: BorderRadius.circular(16)),
   );
 
-  Widget _cardView({required Widget child, double? width, double? height}) =>
-      Container(
-        width: width,
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: BooColor.get.border.value),
-        ),
-        child: child,
-      );
+  Widget _cardView({
+    required Widget child,
+    EdgeInsetsGeometry padding = const EdgeInsets.all(16),
+    double? width,
+    double? height,
+  }) => Container(
+    width: width,
+    height: height,
+    padding: padding,
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(16),
+      border: Border.all(color: BooColor.get.border.value),
+    ),
+    child: child,
+  );
 
   Widget _button({
     required String icon,
