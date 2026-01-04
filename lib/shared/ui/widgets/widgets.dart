@@ -2,6 +2,7 @@ export 'anim.dart';
 export 'appbar.dart';
 export 'dev.dart';
 export 'gradient_box_border.dart';
+export 'image.dart';
 export 'infinite_list_view.dart';
 export 'scaffold.dart';
 export 'sliver_center.dart';
