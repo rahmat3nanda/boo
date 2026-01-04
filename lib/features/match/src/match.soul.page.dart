@@ -1,32 +1,79 @@
 import 'dart:ui' show ImageFilter;
 
+import 'package:boo/cores/account/enums/profile.gender.type.dart'
+    show ProfileGenderType;
+import 'package:boo/cores/account/enums/profile.language.type.dart'
+    show ProfileLanguageType;
+import 'package:boo/cores/account/enums/profile.looking_for.subtype.dart'
+    show ProfileLookingForSubtype;
+import 'package:boo/cores/account/enums/profile.looking_for.type.dart'
+    show ProfileLookingForType;
+import 'package:boo/cores/account/enums/profile.media.type.dart'
+    show ProfileMediaType;
+import 'package:boo/cores/account/enums/profile.personality.type.dart'
+    show ProfilePersonalityType;
+import 'package:boo/cores/account/enums/profile.relationship.status.dart'
+    show ProfileRelationshipStatus;
+import 'package:boo/cores/account/enums/profile.relationship.type.dart'
+    show ProfileRelationshipType;
+import 'package:boo/cores/account/enums/profile.zodiac.type.dart'
+    show ProfileZodiacType;
+import 'package:boo/cores/account/models/profile/profile.interest.model.dart'
+    show ProfileInterest;
+import 'package:boo/cores/account/models/profile/profile.language.model.dart'
+    show ProfileLanguage;
+import 'package:boo/cores/account/models/profile/profile.location.model.dart'
+    show
+        ProfileLocation,
+        ProfileLocationCity,
+        ProfileLocationCountry,
+        ProfileLocationProvince;
+import 'package:boo/cores/account/models/profile/profile.media.model.dart'
+    show ProfileMedia, ProfileMediaMetadata;
+import 'package:boo/cores/account/models/profile/profile.model.dart'
+    show Profile;
+import 'package:boo/cores/account/models/profile/profile.prompt.model.dart'
+    show ProfilePrompt;
 import 'package:boo/cores/core/core.dart' show BooUIController;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor, BooColorBase;
 import 'package:boo/shared/ui/styles/styles.dart' show GradientDirection;
 import 'package:boo/shared/ui/widgets/widgets.dart'
-    show BooUIGradientBoxBorder, BooUISvg, BooUIText;
+    show BooUIGradientBoxBorder, BooUIImage, BooUIInfiniteListView, BooUISvg;
 import 'package:boo/shared/utils/const.dart' show bNavBar;
 import 'package:flutter/material.dart'
     show
         BackdropFilter,
+        Border,
         BorderRadius,
         BoxDecoration,
         BoxShape,
         ClipRRect,
         Container,
+        Curves,
         EdgeInsets,
         GestureDetector,
-        ListView,
         MainAxisAlignment,
         NeverScrollableScrollPhysics,
+        PageController,
         Positioned,
         Row,
+        SliverAppBar,
         Stack,
         StatelessWidget,
+        TabController,
         Widget;
-import 'package:get/get.dart' show GetBuilder;
+import 'package:get/get.dart'
+    show
+        Get,
+        GetBuilder,
+        GetNavigation,
+        GetSingleTickerProviderStateMixin,
+        ObxValue,
+        Rx,
+        RxList;
 
 part 'match.soul.controller.dart';
+part 'match.soul.menu.dart';
 
 class MatchSoulPage extends StatelessWidget {
   const MatchSoulPage({super.key});
@@ -36,7 +83,12 @@ class MatchSoulPage extends StatelessWidget {
     init: _MatchSoulController(),
     builder: (_MatchSoulController controller) => Stack(
       children: <Widget>[
-        Positioned.fill(child: _mainView()),
+        Positioned.fill(
+          child: ObxValue<Rx<Profile>>(
+            (Rx<Profile> show) => _mainView(profile: show.value),
+            controller.show,
+          ),
+        ),
         Positioned(
           bottom: bNavBar + 32,
           left: 16,
@@ -45,7 +97,11 @@ class MatchSoulPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             spacing: 4,
             children: <Widget>[
-              _button(icon: 'assets/svg/rocket.svg', size: 48),
+              _button(
+                icon: 'assets/svg/rocket.svg',
+                color: BooColor.get.turquoise1,
+                size: 48,
+              ),
               _button(icon: 'assets/svg/cross.svg', size: 64),
               _button(
                 icon: 'assets/svg/like.svg',
@@ -65,12 +121,35 @@ class MatchSoulPage extends StatelessWidget {
     ),
   );
 
-  Widget _mainView() => ListView.builder(
+  Widget _mainView({required Profile profile}) => BooUIInfiniteListView(
     primary: false,
     shrinkWrap: true,
     physics: const NeverScrollableScrollPhysics(),
-    itemBuilder: (_, _) => const BooUIText('asdasdasdasdasdasd'),
+    headers: <Widget>[
+      SliverAppBar(
+        toolbarHeight: Get.mediaQuery.size.height * .6,
+        title: _imageView(url: profile.medias?.firstOrNull?.thumbnail ?? ''),
+      ),
+    ],
+    children: <Widget>[],
   );
+
+  Widget _imageView({required String url}) => _cardView(
+    width: double.infinity,
+    height: Get.mediaQuery.size.height * .6,
+    child: BooUIImage(network: url, borderRadius: BorderRadius.circular(16)),
+  );
+
+  Widget _cardView({required Widget child, double? width, double? height}) =>
+      Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: BooColor.get.border.value),
+        ),
+        child: child,
+      );
 
   Widget _button({
     required String icon,

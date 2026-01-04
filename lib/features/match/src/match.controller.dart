@@ -12,6 +12,7 @@ class _MatchController extends BooUIController
 
   @override
   void onClose() {
+    menuPageController.dispose();
     menuController.dispose();
     super.onClose();
   }
