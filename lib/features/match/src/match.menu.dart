@@ -13,4 +13,9 @@ enum _MatchMenu {
     souls => BooColor.get.turquoise1,
     discovers => BooColor.get.rosePink,
   };
+
+  Widget get view => switch (this) {
+    souls => const MatchSoulPage(),
+    discovers => const BooUIDev(),
+  };
 }

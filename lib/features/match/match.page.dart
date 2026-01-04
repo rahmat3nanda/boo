@@ -1,43 +1,24 @@
-import 'dart:ui' show ImageFilter;
-
 import 'package:boo/cores/core/core.dart' show BooNavigation, BooUIController;
 import 'package:boo/features/match/match.navigation.dart'
     show MatchNavigationDelegate;
+import 'package:boo/features/match/src/match.soul.page.dart' show MatchSoulPage;
 import 'package:boo/features/match/src/power_up.sheet.dart' show PowerUpSheet;
 import 'package:boo/shared/ui/colors/color.dart' show BooColor, BooColorBase;
-import 'package:boo/shared/ui/styles/styles.dart' show GradientDirection;
 import 'package:boo/shared/ui/widgets/widgets.dart'
-    show
-        BooScaffold,
-        BooUIDev,
-        BooUIGradientBoxBorder,
-        BooUIInfiniteListView,
-        BooUISvg,
-        BooUIText;
-import 'package:boo/shared/utils/const.dart' show bNavBar;
+    show BooScaffold, BooUIDev, BooUIInfiniteListView, BooUISvg, BooUIText;
 import 'package:flutter/material.dart'
     show
-        BackdropFilter,
-        BorderRadius,
-        BoxDecoration,
-        BoxShape,
-        ClipRRect,
         Container,
         Curves,
         EdgeInsets,
         FontWeight,
         GestureDetector,
-        ListView,
-        MainAxisAlignment,
         NeverScrollableScrollPhysics,
         PageController,
         PageView,
-        Positioned,
-        Row,
         SafeArea,
         SliverAppBar,
         SliverFillRemaining,
-        Stack,
         StatelessWidget,
         TabBar,
         TabController,
@@ -103,10 +84,11 @@ class MatchPage extends StatelessWidget {
             ],
             footers: <Widget>[
               SliverFillRemaining(
-                child: PageView(
+                child: PageView.builder(
+                  itemCount: _MatchMenu.values.length,
                   controller: controller.menuPageController,
                   physics: const NeverScrollableScrollPhysics(),
-                  children: <Widget>[_mainView(), const BooUIDev()],
+                  itemBuilder: (_, int index) => _MatchMenu.values[index].view,
                 ),
               ),
             ],
@@ -150,82 +132,6 @@ class MatchPage extends StatelessWidget {
         bottomLeftRadius: 24,
         bottomRightRadius: 24,
         color: selected.color.value,
-      ),
-    ),
-  );
-
-  Widget _mainView() => Stack(
-    children: <Widget>[
-      Positioned.fill(child: _soulView()),
-      Positioned(
-        bottom: bNavBar + 32,
-        left: 16,
-        right: 16,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          spacing: 4,
-          children: <Widget>[
-            _button(icon: 'assets/svg/rocket.svg', size: 48),
-            _button(icon: 'assets/svg/cross.svg', size: 64),
-            _button(
-              icon: 'assets/svg/like.svg',
-              color: BooColor.get.rosePink,
-              size: 48,
-            ),
-            _button(
-              icon: 'assets/svg/like.svg',
-              color: BooColor.get.turquoise1,
-              size: 64,
-            ),
-            _button(icon: 'assets/svg/send.svg', size: 48),
-          ],
-        ),
-      ),
-    ],
-  );
-
-  Widget _soulView() => ListView.builder(
-    primary: false,
-    shrinkWrap: true,
-    physics: const NeverScrollableScrollPhysics(),
-    itemBuilder: (_, _) => const BooUIText('asdasdasdasdasdasd'),
-  );
-
-  Widget _button({
-    required String icon,
-    required double size,
-    BooColorBase? color,
-  }) => GestureDetector(
-    onTap: () {},
-    child: ClipRRect(
-      borderRadius: BorderRadius.circular(size),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 2, sigmaY: 4),
-        child: Container(
-          width: size,
-          height: size,
-          padding: const EdgeInsets.all(8),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            border: BooUIGradientBoxBorder(
-              width: 1.5,
-              direction: GradientDirection.topToDown,
-              colors: <BooColorBase>[
-                BooColor.get.text,
-                BooColor.get.text,
-                BooColor.get.scaffold,
-                BooColor.get.text,
-                BooColor.get.text,
-              ],
-            ),
-          ),
-          child: BooUISvg(
-            asset: icon,
-            color: color,
-            width: size - 12,
-            height: size - 12,
-          ),
-        ),
       ),
     ),
   );
