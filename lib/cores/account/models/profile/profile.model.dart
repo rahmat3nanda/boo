@@ -67,4 +67,8 @@ class Profile {
   final List<ProfileInterest>? interests;
   final List<ProfileLanguage>? languages;
   final ProfileZodiacType? zodiac;
+
+  int get yearsOld =>
+      ((DateTime.now().difference(birthday ?? DateTime.now()).inDays) / 365)
+          .floor();
 }
