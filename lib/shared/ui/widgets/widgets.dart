@@ -6,6 +6,7 @@ export 'image.dart';
 export 'infinite_list_view.dart';
 export 'scaffold.dart';
 export 'sliver_center.dart';
+export 'staggered.dart';
 export 'svg.dart';
 export 'text.dart';
 export 'toast.dart';
