@@ -65,8 +65,8 @@ Make sure you have the following installed:
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/rahmat3nanda/flowey-mobile.git
-cd flowey-mobile
+git clone https://github.com/rahmat3nanda/boo.git
+cd boo
 ```
 
 2. **Install the repository**
