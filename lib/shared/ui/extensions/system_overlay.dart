@@ -9,7 +9,7 @@ extension BooSystemOverlayBrightness on BooSystemOverlay {
   };
 
   Brightness get brightness => switch (this) {
-    BooSystemOverlay.dark => Brightness.light,
-    BooSystemOverlay.light => Brightness.dark,
+    BooSystemOverlay.dark => Brightness.dark,
+    BooSystemOverlay.light => Brightness.light,
   };
 }
